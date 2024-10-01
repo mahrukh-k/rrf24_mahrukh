@@ -72,7 +72,7 @@ data_tidy_mem <- data_dedup %>%
 ### Data cleaning for HH-member level
 data_clean_mem <- data_tidy_mem %>%
     # Drop rows where gender is missing (NA)
-    mutate(gender = !is.na(gender)) %>%
+    filter(!is.na(gender)) %>%
     # Variable labels
     set_variable_labels(
         member = "Gender")
