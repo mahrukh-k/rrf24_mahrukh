@@ -1,14 +1,40 @@
 # Reproducible Research Fundamentals 2024 - R
 
-Welcome to the **Reproducible Research Fundamentals 2024** training repository. This repository will guide you through all the exercises across the following stages:
+# Author: Mahrukh Khan
 
-- **0. GitHub Workflow**: Gain essential GitHub skills, including how to create branches, commit changes, and open pull requests.
-- **1. Data Processing**: Learn to clean and tidy your datasets in preparation for analysis.
-- **2. Data Construction**: Build indicators and variables from the processed data.
-- **3. Data Analysis**: Conduct analyses using the constructed data.
-- **4. Reproducibility Package**: Package all work into a reproducible format for sharing and validation.
+# Contents
 
-Feel free to update this README as you progress through the sessions and customize it to reflect the details of your project. For more details on the elements required for a reproducibility package, refer to our [README template](https://github.com/worldbank/wb-reproducible-research-repository/blob/main/resources/README_Template.md), which you will cover in the **Reproducibility Package** session.
+- Overview
+- Data
+- Code Structure
+- Folder Structure
 
-Remember this is what you will share with your peer at the end of the training for review so this needs to be updated before sharing. 
+## Overview
+
+This package runs the processing, construction and analysis for the data used in RRF 2024. 
+
+## Data 
+
+- Baseline Data
+- Amenities Data
+- Treatment Status
+
+## Code Structure
+
+- 01-processing-data.R
+- 02-constructing-data.R
+- 03-analyzing-data.R 
+
+## Folder Structure
+
+- Rproj
+- Code
+- Outputs
+
+## Steps to run the code
+
+- Open the .Rproj
+- From the .Rproj, open main.R
+- Recover the environment by running `renv::restore` 
+- Run main.R
 
