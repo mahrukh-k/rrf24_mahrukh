@@ -2,16 +2,16 @@
 # 03. Data Analysis
 
 # Libraries
-# library(haven)
-# library(dplyr)
-# library(modelsummary)
-# library(stargazer)
-# library(ggplot2)
-# library(tidyr)
+library(haven)
+library(dplyr)
+library(modelsummary)
+library(stargazer)
+library(ggplot2)
+library(tidyr)
 
 # Load data 
 #household level data
-data_path <- "ADD-YOUR-PATH"
+data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
 hh_data   <- read_dta(file.path(data_path, "Final/TZA_CCT_analysis.dta"))
 
 # secondary data 
@@ -20,39 +20,51 @@ secondary_data <- read_dta(file.path(data_path, "Final/TZA_amenity_analysis.dta"
 
 # Summary statistics ----
 
+glimpse(hh_data)
+
+hh_data_subset <- hh_data %>%
+    select(hh_size, n_child_5, n_child_17, n_adult, n_elder, food_cons_usd_w, 
+           nonfood_cons_usd_w, read, sick, days_sick, district, treatment)
+
 # Create summary statistics by district and export to CSV
 summary_table <- datasummary(
-    ...... ~ ...... * (Mean + SD), 
-    data = hh_data,
+    All(hh_data_subset) ~ to_factor(district) * (Mean + SD), 
+    data = hh_data_subset,
     title = "Summary Statistics by District",
-    output = file.path("Outputs", "summary_table.csv")  # Change to CSV
+    output = file.path("Outputs", "summary_table_.csv")  # Change to CSV
 )
+
+summary_table
 
 
 # Balance table ----
+
 balance_table <- datasummary_balance(
-    ...... ~ ......,
-    data = hh_data,
+    hh_size + n_child_5 + n_child_17 + n_adult + n_elder + food_cons_usd_w + nonfood_cons_usd_w +
+        read + sick + days_sick ~ treatment,
+    data = hh_data_subset,
     stars = TRUE,
     title = "Balance by Treatment Status",
     note = "Includes HHS with observations for baseline and endline",
-    output = file.path("Outputs", "balance_table.csv")  # Change to CSV
+    output = file.path("Outputs", "balance_table_.csv")  # Change to CSV
 )
+
+balance_table 
 
 # Regressions ----
 
 # Model 1: Food consumption regressed on treatment
-model1 <- lm(......, data = hh_data)
+model1 <- lm(food_cons_usd_w ~ treatment, data = hh_data)
 
 # Model 2: Add controls (crop_damage, drought_flood)
-model2 <- lm(......, data = hh_data)
+model2 <- lm(food_cons_usd_w ~ treatment + crop_damage, drought_flood, data = hh_data)
 
 # Model 3: Add FE by district
-model3 <- lm(......, data = hh_data)
+model3 <- lm(food_cons_usd_w ~ treatment + crop_damage, drought_flood + factor(district), data = hh_data)
 
 # Create regression table using stargazer
 stargazer(
-    ......,
+    model1, model2, model3,
     title = "Food Consumption Effects",
     keep = c("treatment", "crop_damage", "drought_flood"),
     covariate.labels = c("Treatment",
@@ -64,8 +76,10 @@ stargazer(
     header = FALSE,
     keep.stat = c("n", "adj.rsq"),
     notes = "Standard errors in parentheses",
-    out = file.path("Outputs","regression_table.tex")
+    out = file.path("Outputs","regression_table_.tex")
 )
+
+#use huxtable to export to excel
 
 # Graphs: Area cultivated by treatment assignment across districts ----
 
@@ -76,17 +90,16 @@ hh_data_plot <- hh_data %>%
            district = as_factor(district))
 
 # Create the bar plot
-# Create the bar plot
-ggplot(hh_data_plot, aes(......) +
-    geom_bar(......) +
-    geom_text(......) +  # Add text labels
-    facet_wrap(......) +  # Facet by district
+ggplot(hh_data_plot, aes(x = treatment , y = area_acre_w, fill = treatment)) +
+    geom_bar(stat="summary", fun="mean", position="dodge") +
+    #geom_text(stat="summary", fun="mean", position="dodge") +  # Add text labels
+    facet_wrap(~district) +  # Facet by district
     labs(title = "Area cultivated by treatment assignment across districts",
          x = NULL, y = "Average area cultivated (Acre)") +  # Remove x-axis title
-    theme_minimal() +
-    ...... # Add other customization if needed
+    theme_minimal()
+ # Add other customization if needed
 
-ggsave(file.path("Outputs", "fig1.png"), width = 10, height = 6)
+ggsave(file.path("Outputs", "fig1_.png"), width = 10, height = 6)
 
 
 # Graphs: Distribution of non-food consumption by female-headed households ----
@@ -104,18 +117,18 @@ mean_male <- hh_data %>%
 
 # Create the density plot
 ggplot(hh_data, 
-       aes(......)) +
-    geom_density(......) +  # Density plot
-    geom_vline(xintercept = ......, color = "purple", linetype = "dashed", size = 1) +  # Vertical line for female mean
-    geom_vline(xintercept = ......, color = "grey", linetype = "dashed", size = 1) +  # Vertical line for male mean
+       aes(x = nonfood_cons_usd_w)) +
+    geom_density() +  # Density plot
+    geom_vline(xintercept = mean_female, color = "purple", linetype = "dashed", size = 1) +  # Vertical line for female mean
+    geom_vline(xintercept = mean_male, color = "grey", linetype = "dashed", size = 1) +  # Vertical line for male mean
     labs(title = "Distribution of Non-Food Consumption",
          x = "Non-food consumption value (USD)", 
          y = "Density",
          color = "Household Head:") +  # Custom labels
-    theme_minimal() +
-    ...... # Add other customization if needed
+    theme_minimal() 
+    # Add other customization if needed
 
-ggsave(file.path("Outputs", "fig2.png"), width = 10, height = 6)
+ggsave(file.path("Outputs", "fig2_.png"), width = 10, height = 6)
 
 # Graphs: Secondary data ----
 
@@ -128,14 +141,14 @@ long_data <- secondary_data %>%
 
 # Create the facet-wrapped bar plot
 ggplot(long_data,
-       aes(......)) +
-    geom_bar(......) +
+       aes(x = reorder(district, count), y = count)) +
+    geom_bar(stat = "identity") +
     coord_flip() +
-    facet_wrap(......) +  # Create facets for schools and medical facilities
+    facet_wrap(~amenity) +  # Create facets for schools and medical facilities
     labs(title = "Access to Amenities: By Districts",
          x = "District", y = NULL, fill = "Districts:") +
     scale_fill_brewer(palette="PuRd") +
-    theme_minimal() +
-    ...... # Add other customization if needed
+    theme_minimal()
+    # Add other customization if needed
 
-ggsave(file.path("Outputs", "fig3.png"), width = 10, height = 6)
+ggsave(file.path("Outputs", "fig3_.png"), width = 10, height = 6)
