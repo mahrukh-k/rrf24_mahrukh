@@ -8,6 +8,7 @@
 - Data
 - Code Structure
 - Folder Structure
+- Steps to run the code
 
 ## Overview
 
