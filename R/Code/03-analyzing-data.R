@@ -2,16 +2,16 @@
 # 03. Data Analysis
 
 # Libraries
-library(haven)
-library(dplyr)
-library(modelsummary)
-library(stargazer)
-library(ggplot2)
-library(tidyr)
+# library(haven)
+# library(dplyr)
+# library(modelsummary)
+# library(stargazer)
+# library(ggplot2)
+# library(tidyr)
 
 # Load data 
 #household level data
-data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
+#data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
 hh_data   <- read_dta(file.path(data_path, "Final/TZA_CCT_analysis.dta"))
 
 # secondary data 

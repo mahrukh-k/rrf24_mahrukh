@@ -16,13 +16,20 @@ library(modelsummary) # creating summary tables
 library(stargazer) # writing nice tables
 library(RColorBrewer) # color palettes
 
+# Recover environment ----
+
+# new users need to restore environment by running (only once):
+# renv::restore()
+
 # Set data path ----
 
 # this is the second root of the project, the first root is the code whose directory 
 # is already being handled by the rstudio project.
 
-data_path <- "C:/Users/wb572332/GitHub/rrf24_mahrukh/R"
+data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
 
 # Run the R scripts ----
 
 source("Code/01-processing-data.R")
+source("Code/02-constructing-data.R")
+source("Code/03-analyzing-data.R")

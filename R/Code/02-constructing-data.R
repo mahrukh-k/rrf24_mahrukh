@@ -4,7 +4,7 @@
 
 # Preliminary - Load Data ----
 # Load household-level data (HH)
-data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
+#data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
 
 hh_data <- read_dta(file.path(data_path, "Intermediate/TZA_CCT_HH.dta"))
 

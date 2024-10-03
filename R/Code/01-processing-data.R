@@ -2,16 +2,16 @@
 # 01. Data processing
 
 ### Libraries
-library(haven)
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(labelled)
+# library(haven)
+# library(dplyr)
+# library(tidyr)
+# library(stringr)
+# library(labelled)
 
 ### Loading data ----
 
 # Load the dataset
-data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
+#data_path <- "C:/Users/wb572332/OneDrive - WBG/DataWork/DataWork/Data"
 data      <- read_dta(file.path(data_path, "Raw/TZA_CCT_baseline.dta"))
 
 View(data)
